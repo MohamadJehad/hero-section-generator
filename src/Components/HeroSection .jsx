@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 const HeroSection = ({initialData}) => {
   // State for the data array
@@ -18,7 +18,11 @@ const HeroSection = ({initialData}) => {
     
     // Simulate loading delay
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * data.length);
+        let randomIndex;
+        do {
+          randomIndex = Math.floor(Math.random() * data.length);
+        } while (data[randomIndex] === content && data?.length > 1);
+        
       setContent(data[randomIndex]);
       setIsLoading(false);
       
