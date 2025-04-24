@@ -82,64 +82,81 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="hero-section">
-      <div className="container">
-        <div className="content">
-          {/* Text Content */}
-          <div className="text-content">
-            {editing === 'headline' ? (
-              <textarea
-                ref={editRef}
-                value={content.headline}
-                onChange={handleEditChange}
-                onBlur={stopEditing}
-                onKeyDown={(e) => e.key === 'Enter' && stopEditing()}
-                className="text-lg bg-gray-800 p-2 rounded-md min-w-1/2"
-              />
-            ) : (
-              <h1 onClick={() => startEditing('headline')}>
-                {content.headline}
-              </h1>
-            )}
-
+    <div className="bg-gray-900 text-white min-h-screen flex ">
+      <div className="container mx-auto px-12 py-12 max-w-6xl">
+       
+        {/* HEADLINE*/}
+        <div className="text-center mb-12">
+          {editing === 'headline' ? (
+            <textarea
+              ref={editRef}
+              value={content.headline}
+              onChange={handleEditChange}
+              onBlur={stopEditing}
+              onKeyDown={(e) => e.key === 'Enter' && stopEditing()}
+              className="w-full text-4xl font-bold bg-gray-800 p-2 rounded border border-blue-500"
+              rows={2}
+            />
+          ) : (
+            <h1 
+              onClick={() => startEditing('headline')}
+              className="text-4xl font-bold cursor-pointer hover:text-blue-400"
+            >
+              {content.headline}
+            </h1>
+          )}
+        </div>
+        
+        {/* Subtext and Photo - Side by side */}
+        <div className="flex flex-col md:flex-row gap-8 mb-8">
+          {/* Subtext */}
+          <div className="md:w-1/2 flex flex-col justify-center">
             {editing === 'subheadline' ? (
               <textarea
                 ref={editRef}
                 value={content.subheadline}
                 onChange={handleEditChange}
                 onBlur={stopEditing}
-                className="text-lg bg-gray-800 p-2 rounded-md min-w-1/2"
                 onKeyDown={(e) => e.key === 'Enter' && stopEditing()}
+                className="w-full text-lg text-gray-300 bg-gray-800 p-2 rounded border border-blue-500 mb-6"
+                rows={4}
               />
             ) : (
-              <p onClick={() => startEditing('subheadline')}>
+              <p 
+                onClick={() => startEditing('subheadline')}
+                className="text-lg text-gray-300 cursor-pointer hover:text-blue-400 mb-6"
+              >
                 {content.subheadline}
               </p>
             )}
             
-            <div className="buttons">
-              <button className="primary-button">Get Started</button>
+            {/* Buttons */}
+            <div className="flex gap-4 justify-center">
+              <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">
+                Get Started
+              </button>
               <button 
-                className="secondary-button"
+                className="px-6 py-2 border border-blue-500 hover:bg-blue-900/30 rounded-md"
                 onClick={regenerateContent}
               >
                 Regenerate Content
               </button>
             </div>
           </div>
-
-          {/* Image */}
-          <div className="image-container">
+          
+          {/* Image  */}
+          <div className="md:w-1/2">
             <img 
               src={content.image} 
               alt="Hero" 
-              className="hero-image"
+              className="w-full rounded-lg shadow-lg"
             />
           </div>
         </div>
       </div>
     </div>
   );
+   
 };
 
 export default HeroSection;
