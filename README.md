@@ -1,4 +1,4 @@
-# Hero Section Component
+# Hero Section Generator
 
 A dynamic, editable hero section for React applications with content regeneration capabilities.
 
