@@ -5,23 +5,23 @@ A dynamic, editable hero section for React applications with content regeneratio
 ## Setup Instructions
 
 
-### Clone the repository
+### 1- Clone the repository
 
 `git clone <repository-url>`
 
-### Change into the project directory
+### 2- Change into the project directory
 
 `cd <repository-name>`
 
-### Install dependencies
+### 3- Install dependencies
 
 `npm install`
 
-### Start the development server
+### 4- Start the development server
 
 `npm run dev`
 
-### Open in browser
+### 5- Open in browser
 
 Navigate to http://localhost:5173 to view the application.
 
