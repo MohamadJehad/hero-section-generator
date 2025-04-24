@@ -1,33 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 // Sample data for regeneration with images
-const dummyData = [
+const initialDummyData = [
   {
+    id: 1,
     headline: "Transform Your Digital Experience",
     subheadline: "Powerful solutions that drive growth and engagement for modern businesses",
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80"
   },
   {
+    id: 2,
     headline: "Elevate Your Brand Presence",
     subheadline: "Strategic design and development to help you stand out in a crowded market",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
   },
   {
+    id: 3,
     headline: "Innovate With Confidence",
     subheadline: "Cutting-edge solutions backed by data-driven insights for sustainable growth",
     image: "https://images.unsplash.com/photo-1581089781785-603411fa81e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
   },
   {
+    id: 4,
     headline: "Build For The Future",
     subheadline: "Scalable technology solutions designed to grow with your business needs",
     image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
   },
   {
+    id: 5,
     headline: "Unlock Your Digital Potential",
     subheadline: "Expert guidance and tools to help you navigate the digital landscape",
     image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
   },
   {
+    id: 6,
     headline: "Revolutionize Your Digital Presence",
     subheadline: "Powerful, intuitive solutions designed to take your business to the next level",
     image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
@@ -35,7 +41,11 @@ const dummyData = [
 ];
 
 const HeroSection = () => {
-  const [content, setContent] = useState(dummyData[0]);
+  // State for the data array
+  const [data, setData] = useState(initialDummyData);
+  
+  // State for the currently displayed content
+  const [content, setContent] = useState(data[0]);
   
   const [editing, setEditing] = useState(null);
   const editRef = useRef(null);
@@ -48,8 +58,8 @@ const HeroSection = () => {
     
     // Simulate loading delay
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * dummyData.length);
-      setContent(dummyData[randomIndex]);
+      const randomIndex = Math.floor(Math.random() * data.length);
+      setContent(data[randomIndex]);
       setIsLoading(false);
       
       // Show success tooltip
@@ -68,11 +78,20 @@ const HeroSection = () => {
     }, 0);
   };
 
+  // Update the data array then set the content when editing
   const handleEditChange = (e) => {
-    setContent({
+    // Update the data array based on ID
+    const updatedData = data.map(item => 
+      item.id === content.id ? { ...item, [editing]: e.target.value } : item
+    );
+    setData(updatedData);
+    
+    // Update the current content
+    const updatedContent = {
       ...content,
       [editing]: e.target.value
-    });
+    };
+    setContent(updatedContent);
   };
 
   const stopEditing = () => {
@@ -112,7 +131,7 @@ const HeroSection = () => {
           ) : (
             <h1 
               onClick={() => startEditing('headline')}
-              className="text-4xl font-bold cursor-pointer hover:text-blue-400"
+              className="text-4xl font-bold cursor-pointer hover:text-blue-400 transition-colors duration-300"
             >
               {content.headline}
             </h1>
@@ -136,7 +155,7 @@ const HeroSection = () => {
             ) : (
               <p 
                 onClick={() => startEditing('subheadline')}
-                className="text-lg text-gray-300 cursor-pointer hover:text-blue-400 mb-6"
+                className="text-lg text-gray-300 cursor-pointer hover:text-blue-400 mb-6 transition-colors duration-300"
               >
                 {content.subheadline}
               </p>
@@ -145,7 +164,7 @@ const HeroSection = () => {
             {/* Buttons */}
             <div className="flex gap-4 justify-center">
               <button 
-                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md transform hover:scale-105"
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md transition-colors duration-300 transform hover:scale-105"
               >
                 Get Started
               </button>
@@ -193,7 +212,6 @@ const HeroSection = () => {
       </div>
     </div>
   );
-   
 };
 
 export default HeroSection;
