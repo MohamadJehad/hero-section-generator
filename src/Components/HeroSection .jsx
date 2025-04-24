@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 // Sample data for regeneration with images
 const dummyData = [
@@ -36,6 +36,9 @@ const dummyData = [
 
 const HeroSection = () => {
   const [content, setContent] = useState(dummyData[0]);
+  
+  const [editing, setEditing] = useState(null);
+  const editRef = useRef(null);
 
   // Handle regeneration of content
   const regenerateContent = () => {
@@ -43,14 +46,76 @@ const HeroSection = () => {
     setContent(dummyData[randomIndex]);
   };
 
+  // Handle inline editing
+  const startEditing = (field) => {
+    setEditing(field);
+    setTimeout(() => {
+      if (editRef.current) {
+        editRef.current.focus();
+      }
+    }, 0);
+  };
+
+  const handleEditChange = (e) => {
+    setContent({
+      ...content,
+      [editing]: e.target.value
+    });
+  };
+
+  const stopEditing = () => {
+    setEditing(null);
+  };
+
+  // Click outside to stop editing
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (editRef.current && !editRef.current.contains(event.target)) {
+        stopEditing();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="hero-section">
       <div className="container">
         <div className="content">
           {/* Text Content */}
           <div className="text-content">
-            <h1>{content.headline}</h1>
-            <p>{content.subheadline}</p>
+            {editing === 'headline' ? (
+              <textarea
+                ref={editRef}
+                value={content.headline}
+                onChange={handleEditChange}
+                onBlur={stopEditing}
+                onKeyDown={(e) => e.key === 'Enter' && stopEditing()}
+                className="text-lg bg-gray-800 p-2 rounded-md min-w-1/2"
+              />
+            ) : (
+              <h1 onClick={() => startEditing('headline')}>
+                {content.headline}
+              </h1>
+            )}
+
+            {editing === 'subheadline' ? (
+              <textarea
+                ref={editRef}
+                value={content.subheadline}
+                onChange={handleEditChange}
+                onBlur={stopEditing}
+                className="text-lg bg-gray-800 p-2 rounded-md min-w-1/2"
+                onKeyDown={(e) => e.key === 'Enter' && stopEditing()}
+              />
+            ) : (
+              <p onClick={() => startEditing('subheadline')}>
+                {content.subheadline}
+              </p>
+            )}
             
             <div className="buttons">
               <button className="primary-button">Get Started</button>
