@@ -1,9 +1,10 @@
 import './App.css'
 import HeroSection from './Components/HeroSection '
+import { dummyData } from "./Data/heroContent"; 
 
 function App() {
 
-  return <HeroSection />
+  return <HeroSection initialData={dummyData} />
 
 }
 
